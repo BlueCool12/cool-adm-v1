@@ -6,10 +6,10 @@ import {
 } from 'typeorm';
 
 export abstract class DateEntity {
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
   updatedAt: Date;
 }
 
@@ -28,6 +28,6 @@ export abstract class CoreEntity extends DateEntity {
 // ===========================================================
 
 export abstract class BaseEntity extends CoreEntity {
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
   deletedAt: Date | null;
 }
