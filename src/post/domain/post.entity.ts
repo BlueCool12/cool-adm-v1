@@ -1,8 +1,9 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { PostStatus } from '@/post/domain/post-status.enum';
 import { Slug } from '@/common/vo/slug.vo';
 import { Media } from '@/media/domain/media.entity';
 import { BaseEntity } from '@/common/entity/base.entity';
+import { Category } from '@/category/domain/category.entity';
 
 @Entity('post')
 export class Post extends BaseEntity {
@@ -39,6 +40,10 @@ export class Post extends BaseEntity {
 
   @Column({ name: 'category_id', type: 'int', nullable: true })
   private categoryId: number | null;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'category_id' })
+  public readonly category: Category;
 
   @OneToMany(() => Media, (media) => media.post)
   public readonly medias: Media[];
