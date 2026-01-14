@@ -2,13 +2,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
-import { PostModule } from './post/post.module';
-import { JwtAuthGuard } from './auth/presentation/guards/jwt-auth.guard';
-import { RolesGuard } from './auth/presentation/guards/roles.guard';
-import { AuthModule } from './auth/auth.module';
-import { MediaModule } from './media/media.module';
-import { CategoryModule } from './category/category.module';
-import { CommentModule } from './comment/comment.module';
+
+import { HealthModule } from '@/health/health.module';
+import { AuthModule } from '@/auth/auth.module';
+import { MediaModule } from '@/media/media.module';
+
+import { CategoryModule } from '@/category/category.module';
+import { PostModule } from '@/post/post.module';
+import { CommentModule } from '@/comment/comment.module';
+
+import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
+import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
 
 @Module({
   imports: [
@@ -31,6 +35,7 @@ import { CommentModule } from './comment/comment.module';
         logging: false,
       }),
     }),
+    HealthModule,
     AuthModule,
     PostModule,
     MediaModule,
