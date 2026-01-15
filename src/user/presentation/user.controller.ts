@@ -23,6 +23,11 @@ import { GetUsersQuery } from '@/user/application/query/get-users.query';
 import { GetUsersResponse } from '@/user/presentation/response/get-users.response';
 import { UpdateUserRequest } from '@/user/presentation/request/update-user.request';
 import { UpdateUserCommand } from '@/user/application/command/update-user.command';
+import { CurrentUser } from '@/auth/presentation/decorators/current-user.decorator';
+import { User } from '@/user/domain/user.entity';
+import { UpdateProfileRequest } from '@/user/presentation/request/update-profile.request';
+import { UpdateProfileCommand } from '@/user/application/command/update-profile.command';
+import { UpdateProfileResponse } from '@/user/presentation/response/update-profile.response';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -63,6 +68,21 @@ export class UserController {
     );
 
     await this.userService.update(command);
+  }
+
+  @Patch('me/profile')
+  async updateMyProfile(
+    @CurrentUser() user: User,
+    @Body() request: UpdateProfileRequest,
+  ): Promise<UpdateProfileResponse> {
+    const command = new UpdateProfileCommand(
+      user.id,
+      request.nickname,
+      request.profileImageUrl ?? null,
+    );
+
+    const result = await this.userService.updateProfile(command);
+    return new UpdateProfileResponse(result);
   }
 
   @Delete(':id')

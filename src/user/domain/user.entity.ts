@@ -25,6 +25,9 @@ export class User extends CoreEntity {
   @Column({ type: 'varchar', length: 100, nullable: true })
   private nickname: string | null;
 
+  @Column({ name: 'profile_image_url', type: 'varchar', length: 500, nullable: true })
+  private profileImageUrl: string | null;
+
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   private role: UserRole;
 
@@ -76,6 +79,11 @@ export class User extends CoreEntity {
     if (params.passwordHash) this.passwordHash = params.passwordHash;
   }
 
+  public updateProfile(params: { nickname: string; profileImageUrl?: string | null }): void {
+    this.nickname = params.nickname;
+    if (params.profileImageUrl !== undefined) this.profileImageUrl = params.profileImageUrl;
+  }
+
   // getter
   public getLoginId(): string {
     return this.loginId;
@@ -87,6 +95,10 @@ export class User extends CoreEntity {
 
   public getNickname(): string | null {
     return this.nickname;
+  }
+
+  public getProfileImageUrl(): string | null {
+    return this.profileImageUrl;
   }
 
   public getRole(): UserRole {

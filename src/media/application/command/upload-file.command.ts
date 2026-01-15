@@ -4,6 +4,6 @@ export class UploadFileCommand {
   constructor(
     public readonly file: Express.Multer.File,
     public readonly type: MediaType,
-    public readonly postId: string,
+    public readonly postId?: string,
   ) {}
 }

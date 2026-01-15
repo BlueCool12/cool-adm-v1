@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '@/user/application/user.repository';
 import { User } from '@/user/domain/user.entity';
@@ -5,7 +6,8 @@ import { CreateUserCommand } from '@/user/application/command/create-user.comman
 import { GetUsersQuery } from '@/user/application/query/get-users.query';
 import { GetUsersResult } from '@/user/application/result/get-users.result';
 import { UpdateUserCommand } from '@/user/application/command/update-user.command';
-import * as bcrypt from 'bcrypt';
+import { UpdateProfileCommand } from '@/user/application/command/update-profile.command';
+import { UpdateProfileResult } from '@/user/application/result/update-profile.result';
 
 @Injectable()
 export class UserService {
@@ -58,6 +60,17 @@ export class UserService {
     });
 
     await this.userRepository.save(user);
+  }
+
+  async updateProfile(command: UpdateProfileCommand): Promise<UpdateProfileResult> {
+    const user = await this.getById(command.id);
+    user.updateProfile({
+      nickname: command.nickname,
+      profileImageUrl: command.profileImageUrl,
+    });
+
+    await this.userRepository.save(user);
+    return UpdateProfileResult.fromEntity(user);
   }
 
   async delete(id: string): Promise<void> {

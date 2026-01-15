@@ -40,4 +40,20 @@ export class MediaController {
     const url = await this.mediaService.uploadFile(command);
     return UploadMediaResponse.from(url);
   }
+
+  @Post('images/profile')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadProfileImage(
+    @UploadedFile(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({ fileType: /(jpg|jpeg|png|webp|gif)$/ })
+        .addMaxSizeValidator({ maxSize: 2 * 1024 * 1024 })
+        .build({ errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY }),
+    )
+    file: Express.Multer.File,
+  ) {
+    const command = new UploadFileCommand(file, MediaType.PROFILE);
+    const url = await this.mediaService.uploadFile(command);
+    return UploadMediaResponse.from(url);
+  }
 }

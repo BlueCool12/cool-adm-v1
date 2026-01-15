@@ -1,6 +1,7 @@
 export const MediaType = {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO',
+  PROFILE: 'PROFILE',
   DOCUMENT: 'DOCUMENT',
 } as const;
 
