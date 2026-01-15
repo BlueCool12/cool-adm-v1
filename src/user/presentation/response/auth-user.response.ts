@@ -6,6 +6,7 @@ export class AuthUserResponse {
   public readonly loginId: string;
   public readonly name: string | null;
   public readonly nickname: string | null;
+  public readonly profileImageUrl: string | null;
   public readonly role: UserRole;
 
   private constructor(
@@ -13,12 +14,14 @@ export class AuthUserResponse {
     loginId: string,
     name: string | null,
     nickname: string | null,
+    profileImageUrl: string | null,
     role: UserRole,
   ) {
     this.id = id;
     this.loginId = loginId;
     this.name = name;
     this.nickname = nickname;
+    this.profileImageUrl = profileImageUrl;
     this.role = role;
   }
 
@@ -28,6 +31,7 @@ export class AuthUserResponse {
       result.loginId,
       result.name,
       result.nickname,
+      result.profileImageUrl,
       result.role,
     );
   }

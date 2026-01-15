@@ -51,6 +51,7 @@ export class AuthService {
           snapshot.loginId,
           userProfile.getName(),
           userProfile.getNickname(),
+          userProfile.getProfileImageUrl(),
           snapshot.role,
         ),
       );
@@ -75,6 +76,7 @@ export class AuthService {
       loginId: user.getLoginId(),
       name: user.getName(),
       nickname: user.getNickname(),
+      profileImageUrl: user.getProfileImageUrl(),
       role: user.getRole(),
     };
   }
