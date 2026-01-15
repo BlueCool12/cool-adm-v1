@@ -39,7 +39,9 @@ export class MediaService {
   async syncMediaUsage(storedMedias: Media[], content: string): Promise<void> {
     const activeImageNames = this.extractImageNames(content);
     const imagesToDelete = storedMedias.filter((media) => {
-      const isUsed = activeImageNames.some((activeName) => media.storedName.includes(activeName));
+      const isUsed = activeImageNames.some((activeName) =>
+        media.getStoredName().includes(activeName),
+      );
       return !isUsed;
     });
 

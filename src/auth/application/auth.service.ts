@@ -10,8 +10,8 @@ import * as bcrypt from 'bcrypt';
 import { AuthDomainError } from '@/auth/domain/auth-credential';
 import { UserRole } from '@/user/domain/user-role.enum';
 import { LoginResult } from '@/auth/application/result/login.result';
-import { UserResult } from '@/user/application/result/user.result';
 import { ConfigService } from '@nestjs/config';
+import { AuthUserResult } from '@/user/application/result/auth-user.result';
 
 @Injectable()
 export class AuthService {
@@ -46,11 +46,12 @@ export class AuthService {
       return new LoginResult(
         accessToken,
         refreshToken,
-        new UserResult(
+        new AuthUserResult(
           snapshot.id,
           snapshot.loginId,
           userProfile.getName(),
           userProfile.getNickname(),
+          userProfile.getProfileImageUrl(),
           snapshot.role,
         ),
       );
@@ -65,17 +66,18 @@ export class AuthService {
     }
   }
 
-  async findMe(userId: string): Promise<UserResult> {
+  async findMe(userId: string): Promise<AuthUserResult> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) throw new UnauthorizedException('사용자를 찾을 수 없습니다.');
 
     return {
       id: user.id,
-      loginId: user.loginId,
+      loginId: user.getLoginId(),
       name: user.getName(),
       nickname: user.getNickname(),
-      role: user.role,
+      profileImageUrl: user.getProfileImageUrl(),
+      role: user.getRole(),
     };
   }
 
@@ -94,7 +96,7 @@ export class AuthService {
     if (!isOk) throw new UnauthorizedException('인증 정보가 일치하지 않습니다.');
 
     const [accessToken, newRefreshToken] = await Promise.all([
-      this.signAccessToken({ id: user.id, role: user.role }),
+      this.signAccessToken({ id: user.id, role: user.getRole() }),
       this.signRefreshToken({ id: user.id }),
     ]);
 

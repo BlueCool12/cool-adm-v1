@@ -1,16 +1,16 @@
 import { LoginResult } from '@/auth/application/result/login.result';
-import { UserResponse } from '@/user/presentation/response/user.response';
+import { AuthUserResponse } from '@/user/presentation/response/auth-user.response';
 
 export class LoginResponse {
   readonly accessToken: string;
-  readonly user: UserResponse;
+  readonly user: AuthUserResponse;
 
-  private constructor(accessToken: string, user: UserResponse) {
+  private constructor(accessToken: string, user: AuthUserResponse) {
     this.accessToken = accessToken;
     this.user = user;
   }
 
   static fromResult(result: LoginResult): LoginResponse {
-    return new LoginResponse(result.accessToken, UserResponse.fromResult(result.user));
+    return new LoginResponse(result.accessToken, AuthUserResponse.fromResult(result.user));
   }
 }

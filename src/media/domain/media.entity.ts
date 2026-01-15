@@ -10,7 +10,7 @@ export interface CreateMediaArgs {
   originalName: string;
   mimeType: string;
   metadata: MediaMetadata;
-  postId: string;
+  postId?: string;
 }
 
 @Entity('media')
@@ -19,7 +19,7 @@ export class Media extends BaseEntity {
   private type: MediaType;
 
   @Column({ name: 'stored_name' })
-  storedName: string;
+  private storedName: string;
 
   @Column({ name: 'original_name' })
   private originalName: string;
@@ -28,17 +28,17 @@ export class Media extends BaseEntity {
   private mimeType: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  metadata: MediaMetadata;
+  private metadata: MediaMetadata;
 
   @Column({ type: 'bigint', name: 'post_id', nullable: true })
-  postId: string;
+  private postId: string | null;
 
   @ManyToOne(() => Post, (post) => post.medias, {
     onDelete: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'post_id' })
-  post: Post;
+  public readonly post: Post;
 
   private url: string;
 
@@ -60,21 +60,25 @@ export class Media extends BaseEntity {
     media.mimeType = args.mimeType;
     media.type = args.type;
     media.metadata = args.metadata;
-    media.postId = args.postId;
+    media.postId = args.postId ?? null;
 
     return media;
   }
 
   // getter
-  public getUrl(): string {
-    return this.url;
+  public getStoredName(): string {
+    return this.storedName;
+  }
+
+  public getOriginalName(): string {
+    return this.originalName;
   }
 
   public getMimeType(): string {
     return this.mimeType;
   }
 
-  public getOriginalName(): string {
-    return this.originalName;
+  public getUrl(): string {
+    return this.url;
   }
 }

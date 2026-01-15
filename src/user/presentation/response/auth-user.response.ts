@@ -1,42 +1,38 @@
-import { UserResult } from '@/user/application/result/user.result';
+import { AuthUserResult } from '@/user/application/result/auth-user.result';
 import { UserRole } from '@/user/domain/user-role.enum';
 
-export class UserResponse {
+export class AuthUserResponse {
   public readonly id: string;
   public readonly loginId: string;
   public readonly name: string | null;
   public readonly nickname: string | null;
+  public readonly profileImageUrl: string | null;
   public readonly role: UserRole;
-  public readonly lastLoginAt: Date | null;
-  public readonly lockedUntil: Date | null;
 
   private constructor(
     id: string,
     loginId: string,
     name: string | null,
     nickname: string | null,
+    profileImageUrl: string | null,
     role: UserRole,
-    lastLoginAt: Date | null,
-    lockedUntil: Date | null,
   ) {
     this.id = id;
     this.loginId = loginId;
     this.name = name;
     this.nickname = nickname;
+    this.profileImageUrl = profileImageUrl;
     this.role = role;
-    this.lastLoginAt = lastLoginAt;
-    this.lockedUntil = lockedUntil;
   }
 
-  static fromResult(result: UserResult): UserResponse {
-    return new UserResponse(
+  static fromResult(result: AuthUserResult): AuthUserResponse {
+    return new AuthUserResponse(
       result.id,
       result.loginId,
       result.name,
       result.nickname,
+      result.profileImageUrl,
       result.role,
-      result.lastLoginAt,
-      result.lockedUntil,
     );
   }
 }

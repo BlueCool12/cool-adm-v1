@@ -12,8 +12,8 @@ import {
   RequestWithRefreshToken,
 } from '@/auth/presentation/types/auth-request.type';
 import { LoginResponse } from '@/auth/presentation/response/login.response';
-import { UserResponse } from '@/user/presentation/response/user.response';
 import { ConfigService } from '@nestjs/config';
+import { AuthUserResponse } from '@/user/presentation/response/auth-user.response';
 
 @Controller('auth')
 export class AuthController {
@@ -35,9 +35,9 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  async me(@CurrentUser() user: CurrentUserPayload): Promise<UserResponse> {
+  async me(@CurrentUser() user: CurrentUserPayload): Promise<AuthUserResponse> {
     const result = await this.authService.findMe(user.userId);
-    return UserResponse.fromResult(result);
+    return AuthUserResponse.fromResult(result);
   }
 
   @Public()

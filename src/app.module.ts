@@ -13,6 +13,7 @@ import { CommentModule } from '@/comment/comment.module';
 
 import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
     }),
     HealthModule,
     AuthModule,
+    UserModule,
     PostModule,
     MediaModule,
     CategoryModule,

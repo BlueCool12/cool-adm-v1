@@ -7,7 +7,7 @@ import sharp from 'sharp';
 @Injectable()
 export class SharpMetadataExtractor extends MetadataExtractor {
   async extract(file: Express.Multer.File, type: MediaType): Promise<MediaMetadata> {
-    if (type === MediaType.IMAGE) {
+    if (type === MediaType.IMAGE || type === MediaType.PROFILE) {
       try {
         const image = sharp(file.buffer);
         const metadata = await image.metadata();
