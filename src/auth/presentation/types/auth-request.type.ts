@@ -2,7 +2,7 @@ import { Request } from 'express';
 import { UserRole } from '@/user/domain/user-role.enum';
 
 export interface CurrentUserPayload {
-  userId: string;
+  id: string;
   role: UserRole;
 }
 

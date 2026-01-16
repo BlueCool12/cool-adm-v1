@@ -52,7 +52,7 @@ export class CommentController {
     @Body() request: CreateReplyRequest,
     @GetUser() admin: CurrentUserPayload,
   ) {
-    const command = new CreateReplyCommand(id, request.content, admin.userId);
+    const command = new CreateReplyCommand(id, request.content, admin.id);
     await this.commentService.createReply(command);
     return { success: true };
   }

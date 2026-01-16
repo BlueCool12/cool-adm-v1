@@ -36,7 +36,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   async me(@CurrentUser() user: CurrentUserPayload): Promise<AuthUserResponse> {
-    const result = await this.authService.findMe(user.userId);
+    const result = await this.authService.findMe(user.id);
     return AuthUserResponse.fromResult(result);
   }
 
@@ -44,9 +44,9 @@ export class AuthController {
   @Post('refresh')
   @UseGuards(AuthGuard('jwt-refresh'))
   async refresh(@Req() req: RequestWithRefreshToken, @Res({ passthrough: true }) res: Response) {
-    const { userId, refreshToken } = req.user;
+    const { id, refreshToken } = req.user;
 
-    const { accessToken, newRefreshToken } = await this.authService.refresh(userId, refreshToken);
+    const { accessToken, newRefreshToken } = await this.authService.refresh(id, refreshToken);
 
     this.setRefreshTokenCookie(res, newRefreshToken);
 
@@ -56,7 +56,7 @@ export class AuthController {
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   async logout(@CurrentUser() user: CurrentUserPayload, @Res({ passthrough: true }) res: Response) {
-    await this.authService.logout(user.userId);
+    await this.authService.logout(user.id);
     this.clearRefreshTokenCookie(res);
     return { success: true };
   }
