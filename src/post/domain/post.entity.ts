@@ -51,6 +51,9 @@ export class Post extends BaseEntity {
   @Column({ name: 'published_at', type: 'timestamp', nullable: true })
   private publishedAt: Date;
 
+  @Column({ name: 'view_count', default: 0 })
+  private viewCount: number;
+
   private constructor() {
     super();
   }

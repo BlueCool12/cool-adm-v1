@@ -13,7 +13,8 @@ import { CommentModule } from '@/comment/comment.module';
 
 import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
-import { UserModule } from './user/user.module';
+import { UserModule } from '@/user/user.module';
+import { AnalyticsModule } from '@/analytics/analytics.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { UserModule } from './user/user.module';
     MediaModule,
     CategoryModule,
     CommentModule,
+    AnalyticsModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
