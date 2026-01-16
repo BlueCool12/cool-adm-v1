@@ -66,8 +66,8 @@ export class AuthService {
     }
   }
 
-  async findMe(userId: string): Promise<AuthUserResult> {
-    const user = await this.userRepository.findById(userId);
+  async findMe(id: string): Promise<AuthUserResult> {
+    const user = await this.userRepository.findById(id);
 
     if (!user) throw new UnauthorizedException('사용자를 찾을 수 없습니다.');
 
@@ -82,10 +82,10 @@ export class AuthService {
   }
 
   async refresh(
-    userId: string,
+    id: string,
     refreshToken: string,
   ): Promise<{ accessToken: string; newRefreshToken: string }> {
-    const user = await this.userRepository.findById(userId);
+    const user = await this.userRepository.findById(id);
     const refreshTokenHash = user?.refreshTokenHash;
 
     if (!user || !refreshTokenHash) {
@@ -104,8 +104,8 @@ export class AuthService {
     return { accessToken, newRefreshToken };
   }
 
-  async logout(userId: string): Promise<void> {
-    await this.userRepository.updateRefreshToken(userId, null);
+  async logout(id: string): Promise<void> {
+    await this.userRepository.updateRefreshToken(id, null);
   }
 
   private async signAccessToken(user: { id: string; role: UserRole }) {
@@ -128,8 +128,8 @@ export class AuthService {
     );
   }
 
-  private async setRefreshToken(userId: string, refreshToken: string) {
+  private async setRefreshToken(id: string, refreshToken: string) {
     const hash = await bcrypt.hash(refreshToken, 12);
-    await this.userRepository.updateRefreshToken(userId, hash);
+    await this.userRepository.updateRefreshToken(id, hash);
   }
 }

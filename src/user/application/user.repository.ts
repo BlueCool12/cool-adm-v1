@@ -18,7 +18,7 @@ export abstract class UserRepository {
     search?: string;
   }): Promise<[User[], number]>;
 
-  abstract updateRefreshToken(userId: string, hash: string | null): Promise<void>;
+  abstract updateRefreshToken(id: string, hash: string | null): Promise<void>;
 
-  abstract remove(userId: string): Promise<void>;
+  abstract remove(id: string): Promise<void>;
 }

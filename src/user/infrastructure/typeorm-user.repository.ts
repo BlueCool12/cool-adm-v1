@@ -65,11 +65,11 @@ export class TypeOrmUserRepository extends UserRepository {
       .getManyAndCount();
   }
 
-  async updateRefreshToken(userId: string, hash: string | null): Promise<void> {
-    await this.userRepository.update({ id: userId }, { refreshTokenHash: hash });
+  async updateRefreshToken(id: string, hash: string | null): Promise<void> {
+    await this.userRepository.update({ id: id }, { refreshTokenHash: hash });
   }
 
-  async remove(userId: string): Promise<void> {
-    await this.userRepository.delete({ id: userId });
+  async remove(id: string): Promise<void> {
+    await this.userRepository.delete({ id: id });
   }
 }
