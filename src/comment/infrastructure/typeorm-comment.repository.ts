@@ -28,21 +28,25 @@ export class TypeOrmCommentRepository extends CommentRepository {
   async findAll(options: {
     skip: number;
     take: number;
+    replied?: boolean;
     status?: CommentStatus;
   }): Promise<[Comment[], number]> {
     const query = this.commentRepository
       .createQueryBuilder('comment')
       .leftJoinAndSelect('comment.post', 'post')
-      .leftJoinAndSelect('comment.replies', 'replies', 'replies.adminId IS NOT NULL')
       .where('comment.adminId IS NULL')
-      .orderBy('comment.createdAt', 'DESC')
-      .skip(options.skip)
-      .take(options.take);
+      .orderBy('comment.createdAt', 'DESC');
 
-    if (options.status) {
-      query.andWhere('comment.status = :status', { status: options.status });
+    if (options.replied !== undefined) {
+      const existsCondition = options.replied ? 'EXISTS' : 'NOT EXISTS';
+
+      query.andWhere(`${existsCondition} (
+          SELECT 1 FROM comment sub
+          WHERE sub.parent_id = comment.id
+          AND sub.admin_id IS NOT NULL
+        )`);
     }
 
-    return await query.getManyAndCount();
+    return await query.skip(options.skip).take(options.take).getManyAndCount();
   }
 }

@@ -10,20 +10,20 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CommentService } from '@/comment/application/comment.service';
 import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
-import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
-import { GetCommentsRequest } from '@/comment/presentation/request/get-comments.request';
-import { GetCommentsResponse } from '@/comment/presentation/response/get-comments.response';
-import { GetCommentsCommand } from '@/comment/application/command/get-comments.command';
-import { CommentStatus } from '@/comment/domain/comment-status.enum';
-import { UpdateCommentStatusCommand } from '@/comment/application/command/update-comment-status.command';
 import { Roles } from '@/auth/presentation/decorators/roles.decorator';
+import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
 import { UserRole } from '@/user/domain/user-role.enum';
 import { GetUser } from '@/user/presentation/decorators/get-user.decorator';
 import { CurrentUserPayload } from '@/auth/presentation/types/auth-request.type';
+import { CommentService } from '@/comment/application/comment.service';
+import { CommentStatus } from '@/comment/domain/comment-status.enum';
+import { GetCommentsRequest } from '@/comment/presentation/request/get-comments.request';
 import { CreateReplyRequest } from '@/comment/presentation/request/create-reply.request';
+import { GetCommentsResponse } from '@/comment/presentation/response/get-comments.response';
+import { GetCommentsQuery } from '../application/query/get-comments.query';
 import { CreateReplyCommand } from '@/comment/application/command/create-reply.command';
+import { UpdateCommentStatusCommand } from '@/comment/application/command/update-comment-status.command';
 
 @Controller('comments')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -32,8 +32,8 @@ export class CommentController {
 
   @Get()
   async findAll(@Query() request: GetCommentsRequest): Promise<GetCommentsResponse> {
-    const command = new GetCommentsCommand(request.page, request.limit);
-    return await this.commentService.findAll(command);
+    const query = new GetCommentsQuery(request.page, request.limit, request.replied);
+    return await this.commentService.findAll(query);
   }
 
   @Patch(':id/status')

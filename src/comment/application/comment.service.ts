@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CommentRepository } from '@/comment/application/comment.repository';
-import { GetCommentsResult } from '@/comment/application/result/get-comments.result';
-import { GetCommentsCommand } from '@/comment/application/command/get-comments.command';
-import { UpdateCommentStatusCommand } from '@/comment/application/command/update-comment-status.command';
+
 import { Comment } from '@/comment/domain/comment.entity';
 import { CommentStatus } from '@/comment/domain/comment-status.enum';
-import { CreateReplyCommand } from '@/comment/application/command/create-reply.command';
-import { UserService } from '@/user/application/user.service';
+import { CommentRepository } from '@/comment/application/comment.repository';
+
 import { ConfigService } from '@nestjs/config';
+import { UserService } from '@/user/application/user.service';
+
+import { GetCommentsQuery } from './query/get-comments.query';
+import { GetCommentsResult } from '@/comment/application/result/get-comments.result';
+import { CreateReplyCommand } from '@/comment/application/command/create-reply.command';
+import { UpdateCommentStatusCommand } from '@/comment/application/command/update-comment-status.command';
 
 @Injectable()
 export class CommentService {
@@ -17,13 +20,13 @@ export class CommentService {
     private readonly userService: UserService,
   ) {}
 
-  async findAll(command: GetCommentsCommand): Promise<GetCommentsResult> {
-    const { page, limit, status } = command;
+  async findAll(query: GetCommentsQuery): Promise<GetCommentsResult> {
+    const { page, limit, isReplied } = query;
 
     const [comments, total] = await this.commentRepository.findAll({
       skip: (page - 1) * limit,
       take: limit,
-      status,
+      replied: isReplied,
     });
 
     return GetCommentsResult.fromEntities(comments, total, page, limit);

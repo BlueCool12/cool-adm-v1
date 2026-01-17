@@ -1,4 +1,3 @@
-import { CommentStatus } from '@/comment/domain/comment-status.enum';
 import { Comment } from '@/comment/domain/comment.entity';
 
 export abstract class CommentRepository {
@@ -9,6 +8,6 @@ export abstract class CommentRepository {
   abstract findAll(options: {
     skip: number;
     take: number;
-    status?: CommentStatus;
+    replied?: boolean;
   }): Promise<[Comment[], number]>;
 }

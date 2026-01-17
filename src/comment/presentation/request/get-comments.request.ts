@@ -1,6 +1,5 @@
-import { CommentStatus } from '@/comment/domain/comment-status.enum';
-import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { IsBoolean, IsInt, IsOptional, Min } from 'class-validator';
 
 export class GetCommentsRequest {
   @IsOptional()
@@ -16,6 +15,11 @@ export class GetCommentsRequest {
   limit?: number = 10;
 
   @IsOptional()
-  @IsEnum(CommentStatus)
-  status?: CommentStatus;
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return undefined;
+  })
+  @IsBoolean()
+  replied: boolean | undefined = undefined;
 }
