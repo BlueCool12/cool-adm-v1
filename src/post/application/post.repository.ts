@@ -7,6 +7,10 @@ export abstract class PostRepository {
 
   abstract findAll(options: {
     search?: string;
+    status?: string;
+    categoryId?: number;
+    startDate?: string;
+    endDate?: string;
     skip: number;
     take: number;
   }): Promise<[Post[], number]>;

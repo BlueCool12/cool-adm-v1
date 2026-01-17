@@ -26,10 +26,14 @@ export class TypeOrmPostRepository extends PostRepository {
 
   async findAll(options: {
     search?: string;
+    status?: string;
+    categoryId?: number;
+    startDate?: string;
+    endDate?: string;
     skip: number;
     take: number;
   }): Promise<[Post[], number]> {
-    const { search, skip, take } = options;
+    const { search, status, categoryId, startDate, endDate, skip, take } = options;
     const queryBuilder = this.postRepository.createQueryBuilder('post');
 
     if (search) {
@@ -37,10 +41,19 @@ export class TypeOrmPostRepository extends PostRepository {
         new Brackets((qb) => {
           qb.where('post.title LIKE :search', { search: `%${search}%` }).orWhere(
             'post.content LIKE :search',
-            { serach: `%${search}%` },
+            { search: `%${search}%` },
           );
         }),
       );
+    }
+
+    if (status) queryBuilder.andWhere('post.status = :status', { status });
+    if (categoryId) queryBuilder.andWhere('post.categoryId = :categoryId', { categoryId });
+    if (startDate && endDate) {
+      queryBuilder.andWhere('post.createdAt BETWEEN :startDate AND :endDate', {
+        startDate: `${startDate} 00:00:00`,
+        endDate: `${endDate} 23:59:59`,
+      });
     }
 
     queryBuilder.orderBy('post.createdAt', 'DESC').skip(skip).take(take);

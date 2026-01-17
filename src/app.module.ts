@@ -34,7 +34,7 @@ import { AnalyticsModule } from '@/analytics/analytics.module';
         database: configService.get<string>('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: false,
-        logging: true,
+        logging: false,
       }),
     }),
     HealthModule,

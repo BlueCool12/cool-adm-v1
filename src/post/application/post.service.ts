@@ -6,6 +6,7 @@ import { GetPostResult } from '@/post/application/result/get-post.result';
 import { UpdatePostCommand } from '@/post/application/command/update-post.command';
 import { MediaService } from '@/media/application/media.service';
 import { GetPostsResult } from '@/post/application/result/get-posts.result';
+import { GetPostsQuery } from './query/get-posts.query';
 
 @Injectable()
 export class PostService {
@@ -25,11 +26,15 @@ export class PostService {
     return GetPostResult.fromEntity(post);
   }
 
-  async getPosts(query: { search?: string; page: number; limit: number }) {
-    const { search, page, limit } = query;
+  async getPosts(query: GetPostsQuery) {
+    const { search, page, limit, status, categoryId, startDate, endDate } = query;
 
     const [entities, total] = await this.postRepository.findAll({
       search,
+      status,
+      categoryId,
+      startDate,
+      endDate,
       skip: (page - 1) * limit,
       take: limit,
     });

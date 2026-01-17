@@ -21,6 +21,8 @@ import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
 import { Roles } from '@/auth/presentation/decorators/roles.decorator';
 import { UserRole } from '@/user/domain/user-role.enum';
 import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
+import { GetPostsRequest } from './request/get-posts.request';
+import { GetPostsQuery } from '../application/query/get-posts.query';
 
 @Controller('posts')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -41,16 +43,9 @@ export class PostController {
   }
 
   @Get()
-  async getPosts(
-    @Query('search') search?: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-  ): Promise<GetPostListResponse> {
-    const result = await this.postService.getPosts({
-      search,
-      page: Number(page),
-      limit: Number(limit),
-    });
+  async getPosts(@Query() request: GetPostsRequest): Promise<GetPostListResponse> {
+    const query = new GetPostsQuery({ ...request, categoryId: request.category });
+    const result = await this.postService.getPosts(query);
 
     return GetPostListResponse.fromResult(result);
   }
