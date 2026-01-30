@@ -20,6 +20,7 @@ import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
 import { Roles } from '@/auth/presentation/decorators/roles.decorator';
 import { UserRole } from '@/user/domain/user-role.enum';
+import { ReorderCategoryRequest } from './request/reorder-category.request';
 
 @Controller('categories')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -38,6 +39,14 @@ export class CategoryController {
   async findAll(): Promise<GetCategoryTreeResponse[]> {
     const results = await this.categoryService.findAllTree();
     return results.map((result) => new GetCategoryTreeResponse(result));
+  }
+
+  @Patch('reorder')
+  @Roles(UserRole.ADMIN)
+  async reorder(@Body() request: ReorderCategoryRequest): Promise<{ success: boolean }> {
+    const command = request.toCommand();
+    await this.categoryService.reorder(command);
+    return { success: true };
   }
 
   @Patch(':id')
