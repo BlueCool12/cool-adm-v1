@@ -32,25 +32,44 @@ export class TypeOrmAnalyticsRepository extends AnalyticsRepository {
   async getUvCount(start: Date, end: Date): Promise<number> {
     const result = await this.pageViewRepository
       .createQueryBuilder('pv')
-      .select('COUNT(DISTINCT pv.ip_address)', 'count')
+      .select('COUNT(DISTINCT pv.client_id)', 'count')
       .where('pv.created_at BETWEEN :start AND :end', { start, end })
+      .andWhere('pv.client_id IS NOT NULL')
       .getRawOne<{ count: string }>();
 
     return parseInt(result?.count || '0', 10);
   }
 
   async getBounceRateStats(start: Date, end: Date): Promise<{ total: number; bounced: number }> {
-    const query = this.pageViewRepository
-      .createQueryBuilder('pv')
-      .select('pv.ip_address')
-      .where('pv.created_at BETWEEN :start AND :end', { start, end })
-      .groupBy('pv.ip_address');
+    interface CountResult {
+      count: string;
+    }
 
-    const total = await query.getCount();
+    const totalResult = await this.pageViewRepository
+      .createQueryBuilder('pv')
+      .select('COUNT(DISTINCT pv.session_id)', 'count')
+      .where('pv.created_at BETWEEN :start AND :end', { start, end })
+      .andWhere('pv.session_id IS NOT NULL')
+      .getRawOne<CountResult>();
+
+    const total = parseInt(totalResult?.count || '0', 10);
 
     let bounced = 0;
     if (total > 0) {
-      bounced = await query.having('COUNT(pv.id) = 1').getCount();
+      const bouncedResult = await this.pageViewRepository.query<CountResult[]>(
+        `SELECT COUNT(*) as count
+          FROM (
+            SELECT session_id
+            FROM page_view
+            WHERE created_at BETWEEN $1 AND $2
+              AND session_id IS NOT NULL
+            GROUP BY session_id
+            HAVING COUNT(*) = 1
+         ) as sub`,
+        [start, end],
+      );
+
+      bounced = parseInt(bouncedResult[0]?.count || '0', 10);
     }
 
     return { total, bounced };
@@ -82,8 +101,9 @@ export class TypeOrmAnalyticsRepository extends AnalyticsRepository {
       .createQueryBuilder('pv')
       .select("TO_CHAR(pv.created_at, 'MM/DD')", 'date')
       .addSelect('COUNT(pv.id)', 'pv')
-      .addSelect('COUNT(DISTINCT pv.ip_address)', 'uv')
+      .addSelect('COUNT(DISTINCT pv.client_id)', 'uv')
       .where('pv.created_at >= :start', { start })
+      .andWhere('pv.client_id IS NOT NULL')
       .groupBy("TO_CHAR(pv.created_at, 'MM/DD')")
       .orderBy('date', 'ASC')
       .getRawMany<DailyVisitData>();
@@ -117,7 +137,7 @@ export class TypeOrmAnalyticsRepository extends AnalyticsRepository {
         'p.publishedAt AS "publishedAt"',
       ])
       .addSelect('COUNT(pv.id)', 'views')
-      .addSelect('COUNT(DISTINCT pv.ip_address)', 'uv')
+      .addSelect('COUNT(DISTINCT pv.client_id)', 'uv')
       .groupBy('p.id')
       .addGroupBy('p.title')
       .addGroupBy('p.slug')

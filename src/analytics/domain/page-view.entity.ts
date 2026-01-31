@@ -24,7 +24,10 @@ export class PageView {
   @Column({ name: 'device_type', length: 20, nullable: true })
   private deviceType: string;
 
-  @Column({ name: 'session_id', length: 64, nullable: true })
+  @Column({ name: 'client_id', type: 'uuid', nullable: true })
+  private clientId: string;
+
+  @Column({ name: 'session_id', type: 'uuid', nullable: true })
   private sessionId: string;
 
   @Index()
