@@ -8,15 +8,20 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { MediaService } from '@/media/application/media.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadFileCommand } from '@/media/application/command/upload-file.command';
-import { UploadMediaResponse } from '@/media/presentation/response/upload-media.response';
+
 import { MediaType } from '@/media/domain/media-type.enum';
-import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
-import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
-import { Roles } from '@/auth/presentation/decorators/roles.decorator';
 import { UserRole } from '@/user/domain/user-role.enum';
+
+import { UploadMediaResponse } from '@/media/presentation/response/upload-media.response';
+
+import { Roles } from '@/auth/presentation/decorators/roles.decorator';
+import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
+import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
+
+import { UploadFileCommand } from '@/media/application/command/upload-file.command';
+
+import { MediaService } from '@/media/application/service/media.service';
 
 @Controller('media')
 @UseGuards(JwtAuthGuard, RolesGuard)
