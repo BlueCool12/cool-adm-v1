@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '@/auth/presentation/guards/jwt-auth.guard';
 import { RolesGuard } from '@/auth/presentation/guards/roles.guard';
 import { UserModule } from '@/user/user.module';
 import { AnalyticsModule } from '@/analytics/analytics.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AnalyticsModule } from '@/analytics/analytics.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
