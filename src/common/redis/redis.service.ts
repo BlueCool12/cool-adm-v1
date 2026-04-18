@@ -7,9 +7,9 @@ export class RedisService {
 
   constructor(@Inject('REDIS_CLIENT') private readonly redisClient: Redis) {}
 
-  async set<T>(key: string, value: T, ttl?: number): Promise<void> {
+  async set<T>(key: string, value: T, ttl: number = 86400): Promise<void> {
     const stringValue = JSON.stringify(value);
-    if (ttl) {
+    if (ttl > 0) {
       await this.redisClient.set(key, stringValue, 'EX', ttl);
     } else {
       await this.redisClient.set(key, stringValue);

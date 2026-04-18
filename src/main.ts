@@ -77,6 +77,10 @@ async function bootstrap() {
 }
 
 bootstrap().catch((err) => {
-  Logger.error(err, 'Bootstrap');
+  if (err instanceof Error) {
+    Logger.error(err.message, err.stack, 'Bootstrap');
+  } else {
+    Logger.error(String(err), undefined, 'Bootstrap');
+  }
   process.exit(1);
 });
