@@ -16,31 +16,31 @@ export interface CreateMediaArgs {
 @Entity('media')
 export class Media extends BaseEntity {
   @Column()
-  private type: MediaType;
+  private type!: MediaType;
 
   @Column({ name: 'stored_name' })
-  private storedName: string;
+  private storedName!: string;
 
   @Column({ name: 'original_name' })
-  private originalName: string;
+  private originalName!: string;
 
   @Column({ name: 'mime_type' })
-  private mimeType: string;
+  private mimeType!: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  private metadata: MediaMetadata;
+  private metadata!: MediaMetadata | null;
 
   @Column({ type: 'bigint', name: 'post_id', nullable: true })
-  private postId: string | null;
+  private postId!: string | null;
 
   @ManyToOne(() => Post, (post) => post.medias, {
     onDelete: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'post_id' })
-  public readonly post: Post;
+  public readonly post!: Post;
 
-  private url: string;
+  private url!: string;
 
   @AfterLoad()
   updateUrl() {

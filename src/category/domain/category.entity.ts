@@ -8,16 +8,16 @@ export class Category extends LiteEntity {
   private static readonly MAX_SLUG_LENGTH = 20;
 
   @Column({ name: 'parent_id', type: 'int', nullable: true })
-  public parentId: number | null;
+  public parentId!: number | null;
 
   @Column({ length: 20 })
-  private name: string;
+  private name!: string;
 
   @Column({ length: 20, unique: true })
-  private slug: string;
+  private slug!: string;
 
   @Column({ name: 'sort_order', type: 'int', default: 0 })
-  public sortOrder: number;
+  public sortOrder!: number;
 
   private constructor() {
     super();

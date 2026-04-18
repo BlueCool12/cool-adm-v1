@@ -15,34 +15,34 @@ export interface UserSnapshot {
 @Entity('user')
 export class User extends CoreEntity {
   @Column({ name: 'login_id', unique: true, length: 255 })
-  private loginId: string;
+  private loginId!: string;
 
   @Column({ name: 'password_hash', length: 60 })
-  private passwordHash: string;
+  private passwordHash!: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  private name: string | null;
+  private name!: string | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  private nickname: string | null;
+  private nickname!: string | null;
 
   @Column({ name: 'profile_image_url', type: 'varchar', length: 500, nullable: true })
-  private profileImageUrl: string | null;
+  private profileImageUrl!: string | null;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
-  private role: UserRole;
+  private role!: UserRole;
 
   @Column({ name: 'failed_attempts', default: 0 })
-  public readonly failedAttempts: number;
+  public readonly failedAttempts!: number;
 
   @Column({ name: 'locked_until', type: 'timestamptz', nullable: true })
-  public readonly lockedUntil: Date | null;
+  public readonly lockedUntil!: Date | null;
 
   @Column({ type: 'varchar', name: 'refresh_token_hash', length: 255, nullable: true })
-  public readonly refreshTokenHash: string | null;
+  public readonly refreshTokenHash!: string | null;
 
   @Column({ name: 'last_login_at', type: 'timestamptz', nullable: true })
-  public readonly lastLoginAt: Date | null;
+  public readonly lastLoginAt!: Date | null;
 
   private constructor() {
     super();

@@ -6,39 +6,39 @@ import { CoreEntity } from '@/common/entity/base.entity';
 @Entity('comment')
 export class Comment extends CoreEntity {
   @Column({ name: 'parent_id', type: 'int8', nullable: true })
-  private parentId: string | null;
+  private parentId!: string | null;
 
   @ManyToOne(() => Comment, (comment) => comment.replies)
   @JoinColumn({ name: 'parent_id' })
-  private parent: Comment;
+  private parent!: Comment;
 
   @Column({ name: 'admin_id', type: 'int8', nullable: true })
-  private adminId: string | null;
+  private adminId!: string | null;
 
   @OneToMany(() => Comment, (comment) => comment.parent)
-  private replies: Comment[];
+  private replies!: Comment[];
 
   @Column()
-  private nickname: string;
+  private nickname!: string;
 
   @Column('text')
-  private content: string;
+  private content!: string;
 
   @Column()
-  private password: string;
+  private password!: string;
 
   @Column({ name: 'post_id' })
-  private postId: string;
+  private postId!: string;
 
   @ManyToOne(() => Post)
   @JoinColumn({ name: 'post_id' })
-  private post: Post;
+  private post!: Post;
 
   @Column({ name: 'is_deleted', default: false })
-  private isDeleted: boolean;
+  private isDeleted!: boolean;
 
   @Column()
-  private status: CommentStatus;
+  private status!: CommentStatus;
 
   private constructor() {
     super();

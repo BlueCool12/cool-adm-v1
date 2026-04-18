@@ -21,38 +21,38 @@ export class Post extends BaseEntity {
   }
 
   @Column({ length: 70 })
-  private title: string;
+  private title!: string;
 
   @Column('text')
-  private content: string;
+  private content!: string;
 
   @Column({ name: 'content_json', type: 'text', nullable: true })
-  private contentJson: string | null;
+  private contentJson!: string | null;
 
   @Column({ type: 'varchar', default: PostStatus.DRAFT })
-  private status: PostStatus;
+  private status!: PostStatus;
 
   @Column({ type: 'varchar', length: 150, unique: true, nullable: true })
-  private slug: string | null;
+  private slug!: string | null;
 
   @Column({ type: 'text', nullable: true })
-  private description: string;
+  private description!: string | null;
 
   @Column({ name: 'category_id', type: 'int', nullable: true })
-  private categoryId: number | null;
+  private categoryId!: number | null;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
-  private category: Category | null;
+  private category!: Category | null;
 
   @OneToMany(() => Media, (media) => media.post)
-  public readonly medias: Media[];
+  public readonly medias!: Media[];
 
   @Column({ name: 'published_at', type: 'timestamp', nullable: true })
-  private publishedAt: Date;
+  private publishedAt!: Date | null;
 
   @Column({ name: 'view_count', default: 0 })
-  private viewCount: number;
+  private viewCount!: number;
 
   private constructor() {
     super();
@@ -72,10 +72,10 @@ export class Post extends BaseEntity {
   public updateDetails(params: {
     title: string;
     content: string;
-    contentJson?: string;
-    slug: string;
-    description: string;
-    categoryId: number;
+    contentJson?: string | null;
+    slug?: string | null;
+    description?: string | null;
+    categoryId?: number | null;
   }): void {
     this.validateTitle(params.title);
     this.validateDescription(params.description);
@@ -95,8 +95,8 @@ export class Post extends BaseEntity {
 
     this.title = params.title;
     this.content = params.content;
-    this.description = params.description;
-    this.categoryId = params.categoryId === 0 ? null : params.categoryId;
+    this.description = params.description ?? null;
+    this.categoryId = (params.categoryId === 0 || !params.categoryId) ? null : params.categoryId;
   }
 
   public changeStatus(newStatus: PostStatus): void {
@@ -139,7 +139,7 @@ export class Post extends BaseEntity {
     }
   }
 
-  private validateDescription(description: string): void {
+  private validateDescription(description: string | null | undefined): void {
     if (description && description.length > Post.MAX_DESCRIPTION_LENGTH) {
       throw new Error(`요약은 ${Post.MAX_DESCRIPTION_LENGTH}자를 초과할 수 없습니다.`);
     }
@@ -176,7 +176,7 @@ export class Post extends BaseEntity {
     return this.slug;
   }
 
-  public getDescription(): string {
+  public getDescription(): string | null {
     return this.description;
   }
 
