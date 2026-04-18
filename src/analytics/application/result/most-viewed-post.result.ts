@@ -1,11 +1,9 @@
 import { MostViewedPostData } from '@/analytics/domain/types/analytics.types';
 
 export class MostViewedPostResult {
-  id: string;
-
-  title: string;
-
-  views: number;
+  id!: string;
+  title!: string;
+  views!: number;
 
   static from(domain: MostViewedPostData): MostViewedPostResult {
     const result = new MostViewedPostResult();

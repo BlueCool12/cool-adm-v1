@@ -37,12 +37,12 @@ export class GetPostResponse {
 }
 
 class PublishInfoResponse {
-  readonly slug: string | null;
-  readonly description: string;
+  readonly slug!: string | null;
+  readonly description!: string | null;
   readonly category?: {
     readonly id: number;
     readonly name: string;
   } | null;
-  readonly status: PostStatus;
-  readonly publishedAt: Date | null;
+  readonly status!: PostStatus;
+  readonly publishedAt!: Date | null;
 }

@@ -1,13 +1,10 @@
 import { DashboardSummaryResult } from '@/analytics/application/result/dashboard-summary.result';
 
 export class DashboardSummaryResponse {
-  todayPv: number;
-
-  todayUv: number;
-
-  pendingComments: number;
-
-  totalPosts: number;
+  todayPv!: number;
+  todayUv!: number;
+  pendingComments!: number;
+  totalPosts!: number;
 
   static from(result: DashboardSummaryResult): DashboardSummaryResponse {
     const response = new DashboardSummaryResponse();

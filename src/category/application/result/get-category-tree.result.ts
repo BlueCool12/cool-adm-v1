@@ -14,7 +14,7 @@ export class GetCategoryTreeResult {
       category.id,
       category.getName(),
       category.getSlug(),
-      category.parentId,
+      category.parentId ?? null,
     );
   }
 }

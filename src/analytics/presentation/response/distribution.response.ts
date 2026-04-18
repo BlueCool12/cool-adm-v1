@@ -1,11 +1,9 @@
 import { DistributionResult } from '@/analytics/application/result/distribution.result';
 
 export class DistributionResponse {
-  id: number;
-
-  label: string;
-
-  value: number;
+  id!: number;
+  label!: string;
+  value!: number;
 
   static from(result: DistributionResult): DistributionResponse {
     const response = new DistributionResponse();

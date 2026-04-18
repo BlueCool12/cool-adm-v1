@@ -1,13 +1,10 @@
 import { RecentCommentResult } from '@/analytics/application/result/recent-comment.result';
 
 export class RecentCommentResponse {
-  id: string;
-
-  nickname: string;
-
-  content: string;
-
-  createdAt: Date;
+  id!: string;
+  nickname!: string;
+  content!: string;
+  createdAt!: Date;
 
   static from(result: RecentCommentResult): RecentCommentResponse {
     const response = new RecentCommentResponse();

@@ -1,9 +1,9 @@
 import { DistributionData } from '@/analytics/domain/types/analytics.types';
 
 export class DistributionResult {
-  id: number;
-  label: string;
-  value: number;
+  id!: number;
+  label!: string;
+  value!: number;
 
   static from(data: DistributionData, index: number): DistributionResult {
     const result = new DistributionResult();

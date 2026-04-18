@@ -1,12 +1,12 @@
 import { PostPerformanceResult } from '@/analytics/application/result/post-performance.result';
 
 export class PostPerformanceResponse {
-  id: string;
-  title: string;
-  slug: string;
-  publishedAt: Date;
-  views: number;
-  uv: number;
+  id!: string;
+  title!: string;
+  slug!: string;
+  publishedAt!: Date;
+  views!: number;
+  uv!: number;
 
   static from(result: PostPerformanceResult): PostPerformanceResponse {
     const response = new PostPerformanceResponse();
@@ -21,6 +21,6 @@ export class PostPerformanceResponse {
 }
 
 export class PaginatedPostPerformanceResponse {
-  items: PostPerformanceResponse[];
-  total: number;
+  items!: PostPerformanceResponse[];
+  total!: number;
 }

@@ -1,11 +1,9 @@
 import { TrafficDataResult } from '@/analytics/application/result/traffic-data.result';
 
 export class TrafficDataResponse {
-  date: string;
-
-  pv: number;
-
-  uv: number;
+  date!: string;
+  pv!: number;
+  uv!: number;
 
   static from(result: TrafficDataResult): TrafficDataResponse {
     const response = new TrafficDataResponse();

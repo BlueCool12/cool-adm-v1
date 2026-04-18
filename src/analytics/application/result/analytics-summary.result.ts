@@ -1,11 +1,11 @@
 export class AnalyticsSummaryResult {
-  title: string;
+  title!: string;
 
-  value: string | number;
+  value!: string | number;
 
-  trend: number;
+  trend!: number;
 
-  diff: number | string;
+  diff!: number | string;
 
-  unit: string;
+  unit!: string;
 }

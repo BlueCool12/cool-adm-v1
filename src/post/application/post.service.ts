@@ -104,10 +104,10 @@ export class PostService {
         this.aiService.indexPost({
           id: freshPost.id,
           title: freshPost.getTitle(),
-          slug: freshPost.getSlug() || '',
-          description: freshPost.getDescription(),
+          slug: freshPost.getSlug() ?? '',
+          description: freshPost.getDescription() ?? '',
           content: contentMarkdown,
-          category: freshPost.getCategory()!.getName(),
+          category: freshPost.getCategory()?.getName() ?? '미분류',
           publishedAt: freshPost.getPublishedAt()!,
         });
       });

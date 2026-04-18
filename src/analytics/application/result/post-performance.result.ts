@@ -1,12 +1,12 @@
 import { PostPerformanceData } from '@/analytics/domain/types/analytics.types';
 
 export class PostPerformanceResult {
-  id: string;
-  title: string;
-  slug: string;
-  publishedAt: Date;
-  views: number;
-  uv: number;
+  id!: string;
+  title!: string;
+  slug!: string;
+  publishedAt!: Date;
+  views!: number;
+  uv!: number;
 
   static from(data: PostPerformanceData): PostPerformanceResult {
     const result = new PostPerformanceResult();
@@ -21,6 +21,6 @@ export class PostPerformanceResult {
 }
 
 export class PaginatedPostPerformanceResult {
-  items: PostPerformanceResult[];
-  total: number;
+  items!: PostPerformanceResult[];
+  total!: number;
 }

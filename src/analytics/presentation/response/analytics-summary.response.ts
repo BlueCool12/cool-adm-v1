@@ -1,15 +1,15 @@
 import { AnalyticsSummaryResult } from '@/analytics/application/result/analytics-summary.result';
 
 export class AnalyticsSummaryResponse {
-  title: string;
+  title!: string;
 
-  value: string | number;
+  value!: string | number;
 
-  trend: number;
+  trend!: number;
 
-  diff: number | string;
+  diff!: number | string;
 
-  unit: string;
+  unit!: string;
 
   static from(result: AnalyticsSummaryResult): AnalyticsSummaryResponse {
     const response = new AnalyticsSummaryResponse();
