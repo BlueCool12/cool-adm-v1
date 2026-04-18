@@ -27,29 +27,29 @@ export class Post extends BaseEntity {
   private content!: string;
 
   @Column({ name: 'content_json', type: 'text', nullable: true })
-  private contentJson!: string | null;
+  private contentJson?: string | null = null;
 
   @Column({ type: 'varchar', default: PostStatus.DRAFT })
   private status!: PostStatus;
 
   @Column({ type: 'varchar', length: 150, unique: true, nullable: true })
-  private slug!: string | null;
+  private slug?: string | null = null;
 
   @Column({ type: 'text', nullable: true })
-  private description!: string | null;
+  private description?: string | null = null;
 
   @Column({ name: 'category_id', type: 'int', nullable: true })
-  private categoryId!: number | null;
+  private categoryId?: number | null = null;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })
-  private category!: Category | null;
+  private category?: Category | null = null;
 
   @OneToMany(() => Media, (media) => media.post)
   public readonly medias!: Media[];
 
   @Column({ name: 'published_at', type: 'timestamp', nullable: true })
-  private publishedAt!: Date | null;
+  private publishedAt?: Date | null = null;
 
   @Column({ name: 'view_count', default: 0 })
   private viewCount!: number;
@@ -169,15 +169,15 @@ export class Post extends BaseEntity {
   }
 
   public getCategoryId(): number | null {
-    return this.categoryId;
+    return this.categoryId ?? null;
   }
 
   public getSlug(): string | null {
-    return this.slug;
+    return this.slug ?? null;
   }
 
   public getDescription(): string | null {
-    return this.description;
+    return this.description ?? null;
   }
 
   public getStatus(): PostStatus {
@@ -185,14 +185,14 @@ export class Post extends BaseEntity {
   }
 
   public getCategory(): Category | null {
-    return this.category;
+    return this.category ?? null;
   }
 
   public getPublishedAt(): Date | null {
-    return this.publishedAt;
+    return this.publishedAt ?? null;
   }
 
   public getContentJson(): string | null {
-    return this.contentJson;
+    return this.contentJson ?? null;
   }
 }

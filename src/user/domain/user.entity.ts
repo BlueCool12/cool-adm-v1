@@ -21,13 +21,13 @@ export class User extends CoreEntity {
   private passwordHash!: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  private name!: string | null;
+  private name?: string | null = null;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  private nickname!: string | null;
+  private nickname?: string | null = null;
 
   @Column({ name: 'profile_image_url', type: 'varchar', length: 500, nullable: true })
-  private profileImageUrl!: string | null;
+  private profileImageUrl?: string | null = null;
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   private role!: UserRole;
@@ -36,13 +36,13 @@ export class User extends CoreEntity {
   public readonly failedAttempts!: number;
 
   @Column({ name: 'locked_until', type: 'timestamptz', nullable: true })
-  public readonly lockedUntil!: Date | null;
+  public readonly lockedUntil?: Date | null = null;
 
   @Column({ type: 'varchar', name: 'refresh_token_hash', length: 255, nullable: true })
-  public readonly refreshTokenHash!: string | null;
+  public readonly refreshTokenHash?: string | null = null;
 
   @Column({ name: 'last_login_at', type: 'timestamptz', nullable: true })
-  public readonly lastLoginAt!: Date | null;
+  public readonly lastLoginAt?: Date | null = null;
 
   private constructor() {
     super();
@@ -91,15 +91,15 @@ export class User extends CoreEntity {
   }
 
   public getName(): string | null {
-    return this.name;
+    return this.name ?? null;
   }
 
   public getNickname(): string | null {
-    return this.nickname;
+    return this.nickname ?? null;
   }
 
   public getProfileImageUrl(): string | null {
-    return this.profileImageUrl;
+    return this.profileImageUrl ?? null;
   }
 
   public getRole(): UserRole {
@@ -107,7 +107,7 @@ export class User extends CoreEntity {
   }
 
   public getLockedUntil(): Date | null {
-    return this.lockedUntil;
+    return this.lockedUntil ?? null;
   }
 
   public getSnapshot(): UserSnapshot {
@@ -116,9 +116,9 @@ export class User extends CoreEntity {
       loginId: this.loginId,
       passwordHash: this.passwordHash,
       failedAttempts: this.failedAttempts,
-      lockedUntil: this.lockedUntil,
+      lockedUntil: this.lockedUntil ?? null,
       role: this.role,
-      lastLoginAt: this.lastLoginAt,
+      lastLoginAt: this.lastLoginAt ?? null,
     };
   }
 }

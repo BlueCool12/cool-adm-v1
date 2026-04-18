@@ -6,14 +6,14 @@ import { CoreEntity } from '@/common/entity/base.entity';
 @Entity('comment')
 export class Comment extends CoreEntity {
   @Column({ name: 'parent_id', type: 'int8', nullable: true })
-  private parentId!: string | null;
+  private parentId?: string | null = null;
 
   @ManyToOne(() => Comment, (comment) => comment.replies)
   @JoinColumn({ name: 'parent_id' })
-  private parent!: Comment;
+  private parent?: Comment | null = null;
 
   @Column({ name: 'admin_id', type: 'int8', nullable: true })
-  private adminId!: string | null;
+  private adminId?: string | null = null;
 
   @OneToMany(() => Comment, (comment) => comment.parent)
   private replies!: Comment[];
@@ -81,11 +81,11 @@ export class Comment extends CoreEntity {
 
   // getter
   public getParentId(): string | null {
-    return this.parentId;
+    return this.parentId ?? null;
   }
 
   public getAdminId(): string | null {
-    return this.adminId;
+    return this.adminId ?? null;
   }
 
   public getReplies(): Comment[] {

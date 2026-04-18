@@ -24,7 +24,7 @@ export class GetPostResult {
       post.getContent(),
       post.getContentJson(),
       post.getCategoryId(),
-      post.getCategory()?.getName() || null,
+      post.getCategory()?.getName() ?? null,
       post.getSlug(),
       post.getDescription() ?? null,
       post.getStatus(),

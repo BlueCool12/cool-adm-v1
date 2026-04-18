@@ -28,17 +28,17 @@ export class Media extends BaseEntity {
   private mimeType!: string;
 
   @Column({ type: 'jsonb', nullable: true })
-  private metadata!: MediaMetadata | null;
+  private metadata?: MediaMetadata | null = null;
 
   @Column({ type: 'bigint', name: 'post_id', nullable: true })
-  private postId!: string | null;
+  private postId?: string | null = null;
 
   @ManyToOne(() => Post, (post) => post.medias, {
     onDelete: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'post_id' })
-  public readonly post!: Post;
+  public readonly post?: Post | null = null;
 
   private url!: string;
 
