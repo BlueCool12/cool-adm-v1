@@ -16,7 +16,6 @@ import { GetPostResult } from '@/post/application/result/get-post.result';
 import { GetPostsResult } from '@/post/application/result/get-posts.result';
 import { GetAutoSaveResult } from './result/get-auto-save.result';
 
-
 @Injectable()
 export class PostService {
   constructor(
@@ -25,7 +24,7 @@ export class PostService {
     private readonly mediaService: MediaService,
     private readonly aiService: AiService,
     private readonly redisService: RedisService,
-  ) { }
+  ) {}
 
   private getAutoSaveKey(id: string): string {
     return `post:autosave:${id}`;
@@ -78,8 +77,17 @@ export class PostService {
   }
 
   async updatePost(command: UpdatePostCommand): Promise<GetPostResult> {
-    const { id, title, content, contentJson, contentMarkdown, slug, description, categoryId, status } =
-      command.props;
+    const {
+      id,
+      title,
+      content,
+      contentJson,
+      contentMarkdown,
+      slug,
+      description,
+      categoryId,
+      status,
+    } = command.props;
 
     const savedPost = await this.dataSource.transaction(async (manager) => {
       const post = await this.getById(id);
@@ -100,17 +108,21 @@ export class PostService {
     await this.clearAutoSave(id);
 
     if (finalPost.getStatus() === PostStatus.PUBLISHED) {
-      this.getById(finalPost.id).then(freshPost => {
-        this.aiService.indexPost({
+      const freshPost = await this.getById(finalPost.id);
+      const category = freshPost.getCategory();
+      const publishedAt = freshPost.getPublishedAt();
+
+      if (category && publishedAt) {
+        await this.aiService.indexPost({
           id: freshPost.id,
           title: freshPost.getTitle(),
           slug: freshPost.getSlug() || '',
           description: freshPost.getDescription(),
           content: contentMarkdown,
-          category: freshPost.getCategory()!.getName(),
-          publishedAt: freshPost.getPublishedAt()!,
+          category: category.getName(),
+          publishedAt: publishedAt,
         });
-      });
+      }
     } else if (previousStatus === PostStatus.PUBLISHED) {
       await this.aiService.deletePostIndex(id);
     }

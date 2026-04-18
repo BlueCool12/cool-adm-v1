@@ -10,7 +10,7 @@ export class GetPostResponse {
     readonly publishInfo: PublishInfoResponse,
     readonly createdAt: Date,
     readonly updatedAt: Date,
-  ) { }
+  ) {}
 
   static fromResult(result: GetPostResult): GetPostResponse {
     return new GetPostResponse(
@@ -21,12 +21,13 @@ export class GetPostResponse {
       {
         slug: result.slug,
         description: result.description,
-        category: result.categoryName
-          ? {
-            id: result.categoryId!,
-            name: result.categoryName,
-          }
-          : null,
+        category:
+          result.categoryName && result.categoryId !== null
+            ? {
+                id: result.categoryId,
+                name: result.categoryName,
+              }
+            : null,
         status: result.status,
         publishedAt: result.publishedAt,
       },
