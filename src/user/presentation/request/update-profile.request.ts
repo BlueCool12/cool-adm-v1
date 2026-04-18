@@ -2,7 +2,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateProfileRequest {
   @IsString()
-  nickname: string;
+  nickname!: string;
 
   @IsString()
   @IsOptional()

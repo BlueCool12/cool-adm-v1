@@ -8,11 +8,11 @@ export class UpdateUserRequest {
   password?: string;
 
   @IsString()
-  name: string;
+  name!: string;
 
   @IsString()
-  nickname: string;
+  nickname!: string;
 
   @IsEnum(UserRole)
-  role: UserRole;
+  role!: UserRole;
 }

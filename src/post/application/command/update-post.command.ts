@@ -6,9 +6,9 @@ export interface UpdatePostCommandProps {
   readonly content: string;
   readonly contentJson: string;
   readonly contentMarkdown: string;
-  readonly slug: string;
-  readonly description: string;
-  readonly categoryId: number;
+  readonly slug?: string | null;
+  readonly description?: string | null;
+  readonly categoryId?: number | null;
   readonly status: PostStatus;
 }
 

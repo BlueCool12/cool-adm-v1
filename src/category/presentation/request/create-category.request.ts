@@ -5,12 +5,12 @@ export class CreateCategoryRequest {
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
-  public readonly name: string;
+  public readonly name!: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
-  public readonly slug: string;
+  public readonly slug!: string;
 
   @IsNumber()
   @IsOptional()

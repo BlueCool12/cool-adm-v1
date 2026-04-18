@@ -2,5 +2,5 @@ import { IsString } from 'class-validator';
 
 export class GenerateImageRequest {
   @IsString()
-  content: string;
+  content!: string;
 }

@@ -5,7 +5,7 @@ export class ReorderCategoryRequest {
   @IsArray()
   @IsNotEmpty()
   @IsInt({ each: true })
-  ids: number[];
+  ids!: number[];
 
   toCommand(): ReorderCategoryCommand {
     return new ReorderCategoryCommand(this.ids);

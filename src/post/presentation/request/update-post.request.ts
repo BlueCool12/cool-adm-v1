@@ -5,32 +5,32 @@ export class UpdatePostRequest {
   @IsString()
   @IsNotEmpty()
   @MaxLength(70)
-  title: string;
+  title!: string;
 
   @IsString()
   @IsNotEmpty()
-  content: string;
+  content!: string;
 
   @IsString()
-  contentJson: string;
+  contentJson!: string;
 
   @IsString()
-  contentMarkdown: string;
+  contentMarkdown!: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(150)
-  slug: string;
+  slug?: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(200)
-  description: string;
+  description?: string;
 
   @IsNumber()
   @IsOptional()
-  categoryId: number;
+  categoryId?: number;
 
   @IsEnum(PostStatus)
-  status: PostStatus;
+  status!: PostStatus;
 }

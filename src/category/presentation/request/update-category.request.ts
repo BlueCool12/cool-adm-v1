@@ -5,16 +5,16 @@ export class UpdateCategoryRequest {
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
-  public readonly name: string;
+  public readonly name!: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(20)
-  public readonly slug: string;
+  public readonly slug!: string;
 
   @IsNumber()
   @IsOptional()
-  public readonly parentId: number | null;
+  public readonly parentId?: number | null;
 
   toCommand(id: number): UpdateCategoryCommand {
     return new UpdateCategoryCommand(id, this.name, this.slug, this.parentId ?? null);
