@@ -9,7 +9,7 @@ export class MediaCleanupService {
   constructor(
     private readonly fileManager: FileManager,
     private readonly mediaUsageRepository: MediaUsageRepository,
-  ) { }
+  ) {}
 
   async execute(): Promise<void> {
     this.logger.log('🧹 미사용 이미지 정리 시작...');

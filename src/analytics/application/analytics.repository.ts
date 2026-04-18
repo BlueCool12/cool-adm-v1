@@ -34,4 +34,3 @@ export abstract class AnalyticsRepository {
 
   abstract getTotalPostCount(): Promise<number>;
 }
-

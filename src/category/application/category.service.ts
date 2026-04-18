@@ -51,11 +51,14 @@ export class CategoryService {
     const roots: GetCategoryTreeResult[] = [];
 
     allCategories.forEach((category) => {
-      const currentItem = map.get(category.id)!;
+      const currentItem = map.get(category.id);
+      if (!currentItem) return;
 
-      if (category.parentId && map.has(category.parentId)) {
-        const parentItem = map.get(category.parentId)!;
-        parentItem.children.push(currentItem);
+      if (category.parentId) {
+        const parentItem = map.get(category.parentId);
+        if (parentItem) {
+          parentItem.children.push(currentItem);
+        }
       } else {
         roots.push(currentItem);
       }

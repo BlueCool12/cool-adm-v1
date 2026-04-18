@@ -24,7 +24,7 @@ import { CategoryService } from '@/category/application/category.service';
 
 @Controller('categories')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
   @Roles(UserRole.ADMIN)

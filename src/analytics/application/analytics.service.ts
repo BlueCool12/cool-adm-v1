@@ -24,7 +24,7 @@ import { RecentCommentResult } from '@/analytics/application/result/recent-comme
 
 @Injectable()
 export class AnalyticsService {
-  constructor(private readonly analyticsRepository: AnalyticsRepository) { }
+  constructor(private readonly analyticsRepository: AnalyticsRepository) {}
 
   async getDashboardSummary(): Promise<DashboardSummaryResult> {
     const { todayStart, todayEnd } = getTodayComparisonRanges();

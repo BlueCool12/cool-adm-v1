@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AiController } from '@/ai/presentation/ai.controller';
 import { AiService } from '@/ai/application/ai.service';
@@ -27,4 +27,4 @@ import { AiService } from '@/ai/application/ai.service';
   providers: [AiService],
   exports: [AiService],
 })
-export class AiModule { }
+export class AiModule {}

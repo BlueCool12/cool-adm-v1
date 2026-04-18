@@ -21,7 +21,7 @@ export class AuthCredential {
     private lockedUntil: Date | null = null,
     private readonly role: UserRole,
     private lastLoginAt: Date | null = null,
-  ) { }
+  ) {}
 
   public static restore(params: {
     id: string;

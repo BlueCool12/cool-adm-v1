@@ -15,7 +15,7 @@ export class GetPostResult {
     readonly publishedAt: Date | null,
     readonly createdAt: Date,
     readonly updatedAt: Date,
-  ) { }
+  ) {}
 
   static fromEntity(post: Post): GetPostResult {
     return new GetPostResult(

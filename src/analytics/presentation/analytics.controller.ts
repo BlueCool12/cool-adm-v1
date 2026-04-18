@@ -19,7 +19,7 @@ import { GetPostPerformanceQuery } from '@/analytics/application/query/get-post-
 
 @Controller('analytics')
 export class AnalyticsController {
-  constructor(private readonly analyticsService: AnalyticsService) { }
+  constructor(private readonly analyticsService: AnalyticsService) {}
 
   @Get('dashboard/summary')
   async getDashboardSummary(): Promise<DashboardSummaryResponse> {
@@ -78,4 +78,3 @@ export class AnalyticsController {
     return results.map((result) => DistributionResponse.from(result));
   }
 }
-

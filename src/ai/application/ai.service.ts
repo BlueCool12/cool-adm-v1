@@ -1,4 +1,11 @@
-import { Injectable, InternalServerErrorException, Inject, Logger, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Inject,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { v4 as uuidv4 } from 'uuid';
 import { AiTaskStatus } from '@/ai/domain/ai-task-status.enum';
@@ -14,7 +21,7 @@ export class AiService {
   constructor(
     @Inject('AI_CLIENT') private readonly aiClient: ClientProxy,
     private readonly redisService: RedisService,
-  ) { }
+  ) {}
 
   async getJobStatus(jobId: string): Promise<AiTaskResult> {
     const task = await this.redisService.get<AiTaskResult>(`ai_task:${jobId}`);
@@ -60,7 +67,10 @@ export class AiService {
     return this.createJob('delete_post_index', { id });
   }
 
-  private async createJob(type: string, payload: Record<string, unknown>): Promise<{ jobId: string }> {
+  private async createJob(
+    type: string,
+    payload: Record<string, unknown>,
+  ): Promise<{ jobId: string }> {
     try {
       const jobId = uuidv4();
       const initialTask: AiTaskResult = {
@@ -69,11 +79,14 @@ export class AiService {
       };
 
       await this.redisService.set(`ai_task:${jobId}`, initialTask, this.TASK_TTL);
-      this.aiClient.emit({ cmd: type }, { jobId, ...payload });
+      await firstValueFrom(this.aiClient.emit({ cmd: type }, { jobId, ...payload }));
 
       return { jobId };
     } catch (error) {
-      this.logger.error(`Failed to create ${type} job`, error instanceof Error ? error.stack : error);
+      this.logger.error(
+        `Failed to create ${type} job`,
+        error instanceof Error ? error.stack : error,
+      );
       throw new InternalServerErrorException('Failed to process AI request');
     }
   }
