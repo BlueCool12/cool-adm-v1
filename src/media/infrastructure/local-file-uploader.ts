@@ -30,8 +30,7 @@ export class LocalFileUploader extends FileUploader {
       await fs.promises.writeFile(fullPath, file.buffer);
 
       return `${subPath}/${uniqueFileName}`;
-    } catch (e) {
-      console.error(e);
+    } catch {
       throw new InternalServerErrorException('파일 업로드 중 오류가 발생했습니다.');
     }
   }

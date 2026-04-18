@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
-import { RequestMethod, ValidationPipe } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
 
@@ -62,7 +62,6 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      transformOptions: { enableImplicitConversion: true },
     }),
   );
 
@@ -74,10 +73,10 @@ async function bootstrap() {
   const server = app.getHttpServer();
   server.setTimeout(60000);
 
-  console.log(`🚀 Application is running on: http://localhost:${port}`);
+  Logger.log(`🚀 Application is running on: http://localhost:${port}`, 'Bootstrap');
 }
 
 bootstrap().catch((err) => {
-  console.error(err);
+  Logger.error(err, 'Bootstrap');
   process.exit(1);
 });

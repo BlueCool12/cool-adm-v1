@@ -26,8 +26,7 @@ export class SharpMetadataExtractor extends MetadataExtractor {
           isAnimated: metadata.pages ? metadata.pages > 1 : false,
           dominantColor: dominantColor,
         };
-      } catch (e) {
-        console.warn('이미지 분석 실패:', e);
+      } catch {
         return { mimeType: file.mimetype, size: file.size };
       }
     }
