@@ -5,6 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 import { ClientProxy } from '@nestjs/microservices';
 import { v4 as uuidv4 } from 'uuid';
 import { AiTaskStatus } from '@/ai/domain/ai-task-status.enum';
@@ -78,7 +79,7 @@ export class AiService {
       };
 
       await this.redisService.set(`ai_task:${jobId}`, initialTask, this.TASK_TTL);
-      this.aiClient.emit({ cmd: type }, { jobId, ...payload });
+      await firstValueFrom(this.aiClient.emit({ cmd: type }, { jobId, ...payload }));
 
       return { jobId };
     } catch (error) {
