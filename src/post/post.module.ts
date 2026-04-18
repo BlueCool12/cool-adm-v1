@@ -20,4 +20,4 @@ import { AiModule } from '@/ai/ai.module';
   ],
   exports: [PostService],
 })
-export class PostModule { }
+export class PostModule {}

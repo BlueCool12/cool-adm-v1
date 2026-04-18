@@ -31,7 +31,7 @@ import { UpdateProfileCommand } from '@/user/application/command/update-profile.
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @Roles(UserRole.ADMIN)

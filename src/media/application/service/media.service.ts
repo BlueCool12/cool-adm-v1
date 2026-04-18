@@ -15,7 +15,7 @@ export class MediaService {
     private readonly mediaRepository: MediaRepository,
     private readonly fileUploader: FileUploader,
     private readonly metadataExtractor: MetadataExtractor,
-  ) { }
+  ) {}
 
   async uploadFile(command: UploadFileCommand): Promise<string> {
     const { file, type, postId } = command;
@@ -40,7 +40,11 @@ export class MediaService {
     return media.getUrl();
   }
 
-  async syncMediaUsage(storedMedias: Media[], content: string, manager?: EntityManager): Promise<void> {
+  async syncMediaUsage(
+    storedMedias: Media[],
+    content: string,
+    manager?: EntityManager,
+  ): Promise<void> {
     const activeImageNames = this.extractImageNames(content);
     const imagesToDelete = storedMedias.filter((media) => {
       const isUsed = activeImageNames.some((activeName) =>

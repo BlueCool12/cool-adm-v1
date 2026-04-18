@@ -20,7 +20,7 @@ import { UploadFileCommand } from '@/media/application/command/upload-file.comma
 
 @Controller('media')
 export class MediaController {
-  constructor(private readonly mediaService: MediaService) { }
+  constructor(private readonly mediaService: MediaService) {}
 
   @Post('images')
   @Roles(UserRole.ADMIN)

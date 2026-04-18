@@ -27,7 +27,7 @@ import { UpdateCommentStatusCommand } from '@/comment/application/command/update
 
 @Controller('comments')
 export class CommentController {
-  constructor(private readonly commentService: CommentService) { }
+  constructor(private readonly commentService: CommentService) {}
 
   @Get()
   async findAll(@Query() request: GetCommentsRequest): Promise<GetCommentsResponse> {

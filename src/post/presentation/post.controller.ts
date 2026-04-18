@@ -29,7 +29,7 @@ import { GetAutoSaveResult } from '@/post/application/result/get-auto-save.resul
 
 @Controller('posts')
 export class PostController {
-  constructor(private readonly postService: PostService) { }
+  constructor(private readonly postService: PostService) {}
 
   @Post()
   @Roles(UserRole.ADMIN)
@@ -41,10 +41,7 @@ export class PostController {
   @Post(':id/autosave')
   @Roles(UserRole.ADMIN)
   @HttpCode(HttpStatus.OK)
-  async autoSave(
-    @Param('id') id: string,
-    @Body() request: AutoSavePostRequest,
-  ): Promise<void> {
+  async autoSave(@Param('id') id: string, @Body() request: AutoSavePostRequest): Promise<void> {
     const command = new AutoSavePostCommand({ id, ...request });
     await this.postService.autoSave(command);
   }

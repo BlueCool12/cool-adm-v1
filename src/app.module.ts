@@ -57,4 +57,4 @@ import { RedisModule } from '@/common/redis/redis.module';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
-export class AppModule { }
+export class AppModule {}
